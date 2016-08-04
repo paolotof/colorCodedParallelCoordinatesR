@@ -50,6 +50,12 @@ scaledClusters <- hclust(dist(scaledVals))
 # plot(scaledClusters)
 # specify colors depending on cluster belonging
 colDir <- cutree(scaledClusters, 3) + 1
+# word press does not support svg
+# svg(filename="Std_SVG.svg", 
+#     width=5, 
+#     height=4, 
+#     pointsize=12)
+x11()
 par(mfrow = c(1,2))
 parcoord(scaledVals, var.label = TRUE, col = colDir, main = 'scaled')
 
@@ -60,8 +66,11 @@ parcoord(meanBehav, var.label = TRUE, col = colDir, main = 'unscaled')
 
 par(mfrow = c(1,1))
 # export plot
-dev.copy(jpeg,'myplot.jpg')
+# dev.copy(jpeg,'myplot.jpg')
+dev.copy2pdf(device = x11) # this is for pdf, but those are also not loaded as images on wordpress.
 dev.off()
 # dev.copy(png,'myplot.png')
 # dev.off()
 
+# from https://github.com/scour-project/scour
+# scour -i colorCodedParallelCoordinates.svg -o colorCodedParallelCoordinates_o.svg --enable-viewboxing --enable-id-stripping --enable-comment-stripping --shorten-ids --indent=none
